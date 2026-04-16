@@ -1,0 +1,12 @@
+streamlit
+folium
+streamlit-folium
+onnxruntime
+numpy
+Pillow
+torchvision
+rio-tiler
+matplotlib
+opencv-python-headless
+requests
+gdown
