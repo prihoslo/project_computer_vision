@@ -217,7 +217,7 @@ def main():
         st.header("⚙️ Настройки")
         
         # Путь к модели
-        default_model_path = "../best.pt"
+        default_model_path = "best.pt"
         model_path = st.text_input(
             "Путь к модели",
             value=default_model_path,
