@@ -10,3 +10,17 @@ matplotlib
 opencv-python-headless
 requests
 gdown
+pandas==2.0.3
+requests==2.31.0
+plotly==5.15.0
+# Core frameworks
+streamlit==1.28.0
+ultralytics==8.0.200
+
+# Deep learning
+torch==2.0.1
+
+# Image processing
+opencv-python==4.8.0.74
+Pillow==10.0.0
+numpy==1.24.3
