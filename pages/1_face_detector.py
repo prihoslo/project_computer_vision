@@ -1,5 +1,4 @@
 import streamlit as st
-import cv2
 import numpy as np
 from PIL import Image
 from ultralytics import YOLO
@@ -10,6 +9,17 @@ import base64
 import time
 import pandas as pd
 from pathlib import Path
+import sys
+import os
+
+# ========== БЕЗОПАСНЫЙ ИМПОРТ OPENCV ==========
+try:
+    import cv2
+except ImportError:
+    import subprocess
+    with st.spinner("📦 Установка OpenCV для облачной среды..."):
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "opencv-python-headless"])
+    import cv2
 
 # ========== НАСТРОЙКИ СТРАНИЦЫ ==========
 st.set_page_config(
