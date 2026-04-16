@@ -206,6 +206,28 @@ def download_image(image, filename="detected_faces.jpg"):
     img_str = base64.b64encode(buffered.getvalue()).decode()
     href = f'<a href="data:file/jpg;base64,{img_str}" download="{filename}">📥 Скачать результат</a>'
     return href
+def get_example_image(type="group"):
+    """Получение примера изображения из интернета"""
+    import requests
+    
+    # Словарь с URL реальных изображений
+    examples = {
+        "group": "https://shkolamoskva.ru/wp-content/uploads/2023/07/photo_5853940747303235966_y.jpg",  # Группа людей
+        "portrait": "https://img.freepik.com/free-photo/smiling-portrait-studio-woman_1303-2289.jpg",  # Портрет
+        "crowd": "https://images.theconversation.com/files/638065/original/file-20241212-15-93ub7o.jpg",  # Толпа
+        "family": "https://i.pinimg.com/originals/8c/36/f4/8c36f41aaf025ce904710814284db9d3.jpg"  # Семья
+    }
+    
+    try:
+        url = examples.get(type, examples["group"])
+        response = requests.get(url, timeout=10)
+        return BytesIO(response.content)
+    except Exception as e:
+        st.warning(f"Не удалось загрузить пример: {e}")
+        # Возвращаем заглушку
+        img = np.ones((400, 400, 3), dtype=np.uint8) * 128
+        _, buffer = cv2.imencode('.jpg', img)
+        return BytesIO(buffer.tobytes())    
 
 # ========== ОСНОВНОЙ ИНТЕРФЕЙС ==========
 def main():
@@ -294,19 +316,27 @@ def main():
                 st.image(image, caption="Исходное изображение", use_container_width=True)
         
         elif source == "🌐 Использовать пример":
-            # Примеры изображений
             col_ex1, col_ex2 = st.columns(2)
-            
+
             with col_ex1:
                 if st.button("👥 Группа людей", use_container_width=True):
-                    image = Image.open(BytesIO(get_example_image("group")))
-            
+                    with st.spinner("🖼️ Загрузка..."):
+                        image_data = get_example_image("group")
+                        st.session_state.current_image = Image.open(image_data)
+                        st.rerun()  # Принудительно перерисовываем
             with col_ex2:
                 if st.button("👤 Портрет", use_container_width=True):
-                    image = Image.open(BytesIO(get_example_image("portrait")))
-            
-            if image:
+                    with st.spinner("🖼️ Загрузка..."):
+                        image_data = get_example_image("portrait")
+                        st.session_state.current_image = Image.open(image_data)
+                        st.rerun()
+
+                        # Отображаем текущее изображение из session_state
+            if st.session_state.current_image is not None:
+                image = st.session_state.current_image
                 st.image(image, caption="Выбран пример", use_container_width=True)
+            else:
+                image = None            
         
         else:  # Сделать снимок
             camera_image = st.camera_input("Сделайте снимок")
@@ -450,13 +480,7 @@ def main():
             - Поддерживаются групповые фото
             """)
 
-def get_example_image(type="group"):
-    """Получение примера изображения (в реальном приложении загрузите свои примеры)"""
-    # Здесь нужно загрузить реальные изображения
-    # Пока возвращаем заглушку
-    img = np.ones((400, 400, 3), dtype=np.uint8) * 128
-    _, buffer = cv2.imencode('.jpg', img)
-    return buffer.tobytes()
+
 
 if __name__ == "__main__":
     main()
