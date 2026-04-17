@@ -332,7 +332,7 @@ def main():
                         st.rerun()
 
                         # Отображаем текущее изображение из session_state
-            if st.session_state.current_image is not None:
+            if "current_image" in st.session_state and st.session_state.current_image is not None:
                 image = st.session_state.current_image
                 st.image(image, caption="Выбран пример", use_container_width=True)
             else:
