@@ -240,9 +240,9 @@ def get_example_image(type="wind_farm"):
     # Примеры изображений ветряков и вышек
     examples = {
         "wind_farm": "https://images.pexels.com/photos/414837/pexels-photo-414837.jpeg",  # Ветряная ферма
-        "turbine_close": "https://i.ytimg.com/vi/PU3uqg0hT5w/maxresdefault.jpg",  # Крупный план турбины
+        "turbine_close": "https://avatars.mds.yandex.net/i?id=eb76ac30045479b44c92a2fcd5c204cf_l-4231629-images-thumbs&n=13",  # Крупный план турбины
         "towers": "https://tvernews.ru/uploads/sgWBzHU5lAZZjJfOzMKcjwA0P3obJE.jpg",  # Вышки ЛЭП
-        "offshore": "https://oceanexplorer.noaa.gov/wp-content/uploads/2025/04/offshore-hires.jpg"  # Оффшорные ветряки
+        "offshore": "https://i.pinimg.com/736x/22/fb/4a/22fb4a9ff840df06a5767c65ebc4ccfd.jpg"  # Оффшорные ветряки
     }
 
     try:
